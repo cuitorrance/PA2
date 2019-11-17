@@ -1,0 +1,79 @@
+#include "GraphHelper.h"
+#include "FeatureGraph.h"
+#include "GraphAnalyzer.h"
+#include <utility>
+#include <bits/stdc++.h>
+using namespace std;
+
+
+void GraphAnalyzer::insert(Node n) {
+    G.insert(n);
+    // TODO Adjust calculations for ratio of open triangles and topKtriangles
+};
+
+void GraphAnalyzer::insert(Edge e) {
+    G.insert(e);
+    // TODO Adjust calculations for ratio of open triangles and topKtriangles
+};
+
+int GraphAnalyzer::diameter() {
+    //TODO
+    return 2;
+};
+
+
+float GraphAnalyzer::openClosedTriangleRatio() {
+    //TODO
+    return .5;
+};
+
+string GraphAnalyzer::topKOpenTriangles(int k) {
+    //TODO
+    return "2,3,4";
+};
+
+//Reminder may need bug fix if k is greater than edges for nodeID
+vector<int> GraphAnalyzer::topKNeighbors(int nodeID, int k,  vector<float> w) {
+    //TODO
+    //Gets index of nodeID
+    int indexOfNode = G.findIndexOfId(nodeID);
+    vector<vector<int> > temp = G.getAdjMatrix();
+    vector<int> row = temp[indexOfNode];
+    //Gets nodes that contain the feature vector
+    vector<Node> nodes = G.getNodes();
+    //Holds the dot product and ID first int is Dot prodcut second int is ID
+    vector<pair<int, int> > results;
+    for(unsigned int i= 0; i <row.size(); i++){
+        if(row[i]!=0){
+            vector<float> currentFeature = nodes[i].features;
+            float dotProduct = 0;
+            for(unsigned int j = 0; j < currentFeature.size(); j++){
+                dotProduct += currentFeature[j] * w[j];
+            }
+            pair<int, int> tempP(dotProduct, nodes[i].id);
+            results.push_back(tempP);
+        }
+    }
+    sort(results.begin(), results.end());
+    //Final return
+    vector<int> finalReturn(k, 0);
+    for(int i = 0; i < k; i++){
+        finalReturn[i] = results[i].second;
+    }
+    return finalReturn;
+};
+
+
+int GraphAnalyzer::topNonNeighbor(int nodeID, vector<float> w) {
+    //TODO
+    return 1;
+};
+
+
+float GraphAnalyzer::jacardIndexOfTopKNeighborhoods(int nodeAID, int nodeBiID, int k, vector<float> w) {
+    //TODO
+    return 0;
+};
+
+
+
