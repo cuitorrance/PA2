@@ -12,7 +12,10 @@ class GraphAnalyzer {
 
 
 public:	
-		
+	
+    int bfsOnGraph(int idOfNode);
+    
+
 	FeatureGraph G;
 	//TODO: Store a heap of triangeles using cpp prioirty_queue
 

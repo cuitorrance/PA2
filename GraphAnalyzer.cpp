@@ -2,6 +2,8 @@
 #include "FeatureGraph.h"
 #include "GraphAnalyzer.h"
 #include <utility>
+#include <queue>
+#include <iostream>
 using namespace std;
 
 
@@ -15,9 +17,48 @@ void GraphAnalyzer::insert(Edge e) {
     // TODO Adjust calculations for ratio of open triangles and topKtriangles
 };
 
+int GraphAnalyzer::bfsOnGraph(int indexOfNode){
+    vector<Node> nodes = G.getNodes();
+    vector<int> distance(nodes.size(), -1);
+    queue<int> q;
+    q.push(indexOfNode);
+    distance[indexOfNode] = 0;
+    while(!q.empty()){
+        int x = q.front();
+        q.pop();
+        vector<int> edges = G.getAdjMatrix()[x];
+        for(unsigned int i = 0; i <edges.size(); i++){
+            if(edges[i]!=0){
+                //Current index
+                int curretIndex = i;
+                if(distance[i]==-1){
+                    q.push(curretIndex);
+                    distance[i] = distance[x] + 1;
+                }
+            }
+        }
+    }
+    int maxDistance = 0;
+    //Find the Maximum distance from the vector distance
+    for(unsigned int i = 0; i < distance.size(); i++){
+        if(distance[i] > maxDistance){
+            maxDistance = distance[i];
+        }
+    }
+    return maxDistance;
+};
+
 int GraphAnalyzer::diameter() {
-    //TODO
-    return 2;
+    vector<Node> temp = G.getNodes();
+    int maxDiameter = -1;
+    for(unsigned int i = 0; i < temp.size(); i++){
+        int longestPathForIndexI = bfsOnGraph(i);
+        std::cout<<longestPathForIndexI<<std::endl;
+        if(longestPathForIndexI>maxDiameter){
+            maxDiameter = longestPathForIndexI;
+        }
+    }
+    return maxDiameter;
 };
 
 
