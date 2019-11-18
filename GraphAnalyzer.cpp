@@ -54,7 +54,6 @@ int GraphAnalyzer::diameter() {
     int maxDiameter = -1;
     for(unsigned int i = 0; i < temp.size(); i++){
         int longestPathForIndexI = bfsOnGraph(i);
-        std::cout<<longestPathForIndexI<<std::endl;
         if(longestPathForIndexI>maxDiameter){
             maxDiameter = longestPathForIndexI;
         }
