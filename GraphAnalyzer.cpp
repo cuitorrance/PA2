@@ -7,8 +7,8 @@
 #include <iostream>
 using namespace std;
 
-bool sortinrev(const pair<int,int> &a,  
-               const pair<int,int> &b) 
+bool sortinrev(const pair<float,int> &a,  
+               const pair<float,int> &b) 
 { 
        return (a.first > b.first); 
 } 
@@ -87,7 +87,7 @@ vector<int> GraphAnalyzer::topKNeighbors(int nodeID, int k,  vector<float> w) {
     //Gets nodes that contain the feature vector
     vector<Node> nodes = G.getNodes();
     //Holds the dot product and ID first int is Dot prodcut second int is ID
-    vector<pair<int, int> > results;
+    vector<pair<float, int> > results;
     for(unsigned int i= 0; i <row.size(); i++){
         if(row[i]!=0){
             vector<float> currentFeature = nodes[i].features;
@@ -95,7 +95,7 @@ vector<int> GraphAnalyzer::topKNeighbors(int nodeID, int k,  vector<float> w) {
             for(unsigned int j = 0; j < currentFeature.size(); j++){
                 dotProduct += currentFeature[j] * w[j];
             }
-            pair<int, int> tempP(dotProduct, nodes[i].id);
+            pair<float, int> tempP(dotProduct, nodes[i].id);
             results.push_back(tempP);
         }
     }
