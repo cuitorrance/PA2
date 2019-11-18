@@ -41,6 +41,8 @@ public:
 
     vector<vector<int> > getAdjMatrix(){return adjMatrix;}
 
+    void printAdjMatrix();
+
 private:
     int numNodes;
     int skillSize;

@@ -7,6 +7,11 @@
 #include <iostream>
 using namespace std;
 
+bool sortinrev(const pair<int,int> &a,  
+               const pair<int,int> &b) 
+{ 
+       return (a.first > b.first); 
+} 
 
 void GraphAnalyzer::insert(Node n) {
     G.insert(n);
@@ -94,11 +99,14 @@ vector<int> GraphAnalyzer::topKNeighbors(int nodeID, int k,  vector<float> w) {
             results.push_back(tempP);
         }
     }
-    sort(results.begin(), results.end());
+    sort(results.begin(), results.end(), sortinrev);
     //Final return
     vector<int> finalReturn(k, 0);
-    for(int i = 0; i < k; i++){
+    for(int i = 0; i < results.size(); i++){
         finalReturn[i] = results[i].second;
+    }
+    while(finalReturn.size() != k){
+        finalReturn.push_back(0);
     }
     return finalReturn;
 };

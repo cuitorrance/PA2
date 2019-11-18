@@ -28,6 +28,7 @@ int main() {
 
     std::cout << analyzer.topKOpenTriangles(2) << "\n";
     
+    
     int newNodeID = 5;
     vector<float> newFeatures {3, 3};
     Node newNode = Node(newNodeID, newFeatures);

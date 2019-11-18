@@ -40,6 +40,7 @@ void FeatureGraph::insert(Edge edge){
         }
         newAdjMatrix.push_back(x);
     }
+
     //Update the New AdjMatrix with the old AdjMatrix information
     for(unsigned int i = 0; i<adjMatrix.size(); i++){
         for(unsigned int j = 0; j<adjMatrix[i].size(); j++){
@@ -47,7 +48,6 @@ void FeatureGraph::insert(Edge edge){
         }
     }
     adjMatrix = newAdjMatrix;
-
     int firstIndex = findIndexOfId(edge.IdA);
     int secondIndex = findIndexOfId(edge.IdB);
     adjMatrix[firstIndex][secondIndex] = edge.weight;
@@ -61,6 +61,15 @@ int FeatureGraph::findIndexOfId(int id){
         }
     }
     return -1;
+}
+void FeatureGraph::printAdjMatrix(){
+    for(unsigned int i = 0; i < adjMatrix.size(); i++){
+        cout<<"|";
+        for(unsigned int j = 0; j < adjMatrix[i].size(); j++){
+            cout<<adjMatrix[i][j]<<"|";
+        }
+        cout<<endl;
+    }
 }
 
 
