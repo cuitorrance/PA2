@@ -3,6 +3,7 @@
 #include "GraphAnalyzer.h"
 #include <utility>
 #include <queue>
+#include <algorithm>
 #include <iostream>
 using namespace std;
 
