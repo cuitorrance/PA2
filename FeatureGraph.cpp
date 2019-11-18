@@ -41,8 +41,8 @@ void FeatureGraph::insert(Edge edge){
         newAdjMatrix.push_back(x);
     }
     //Update the New AdjMatrix with the old AdjMatrix information
-    for(int i = 0; i<adjMatrix.size(); i++){
-        for(int j = 0; j<adjMatrix[i].size(); j++){
+    for(unsigned int i = 0; i<adjMatrix.size(); i++){
+        for(unsigned int j = 0; j<adjMatrix[i].size(); j++){
             newAdjMatrix[i][j] = adjMatrix[i][j];
         }
     }
