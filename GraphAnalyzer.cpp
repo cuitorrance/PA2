@@ -8,6 +8,8 @@
 #include <limits.h>
 using namespace std;
 
+
+
 bool sortinrev(const pair<float,int> &a,  
                const pair<float,int> &b) 
 { 
@@ -89,6 +91,40 @@ int GraphAnalyzer::diameter() {
         }
     }
     return maxDiameter;
+};
+
+
+//helper fucntion for factorial
+static unsigned int factorial(unsigned int n){
+if (n == 0)
+       return 1;
+    return n * factorial(n - 1);
+
+};
+
+//returns number of open triangles in graph
+int GraphAnalyzer::getNumberOpenTriangles(vector< vector<int> > graph){
+  int result = 0;
+
+  //edge counter
+  int edgeCount = 0;
+
+  //count # edges
+  for (unsigned int i = 0; i < graph.size(); i++){
+    for (unsigned int j = 0; j < graph[i].size(); j++){
+      if (graph[i][j] != 0){
+	edgeCount++;
+      }
+    }
+  }
+
+  //if number of edges is less than 2
+  if (edgeCount < 2) return 0;
+  
+  //calculate # of edges choose 2
+  result = factorial(edgeCount) / ( (factorial(edgeCount - 2)) * 2 );
+  
+  return result;
 };
 
 

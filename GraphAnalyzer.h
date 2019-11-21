@@ -65,6 +65,9 @@ public:
     // w: weight vector
     float jacardIndexOfTopKNeighborhoods(int nodeAID, int nodeBID, int k, vector<float> w);
 
+    //helper method to find number of open triangles
+    int getNumberOpenTriangles (vector < vector<int> > graph);
+
 };
 
 #endif
