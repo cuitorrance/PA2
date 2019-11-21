@@ -1,3 +1,7 @@
+# Sources
+https://pdfs.semanticscholar.org/1727/09e8e7177affe516c22d217a0e543b92a0d1.pdf
+
+
 # PA2
 UCSB 130A Fall 2019 PA2 starter code
 
