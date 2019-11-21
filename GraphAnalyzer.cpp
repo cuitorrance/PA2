@@ -93,7 +93,6 @@ int GraphAnalyzer::diameter() {
     return maxDiameter;
 };
 
-
 //helper fucntion for factorial
 static unsigned int factorial(unsigned int n){
 if (n == 0)
@@ -127,10 +126,49 @@ int GraphAnalyzer::getNumberOpenTriangles(vector< vector<int> > graph){
   return result;
 };
 
+vector<vector<int> > multiplyMatrix(vector<vector<int> > x, vector<vector<int> > y){
+    vector<int> rows(x.size(), 0);
+    vector<vector<int> > result(x.size(), rows);
+    for(int i = 0; i< x.size(); i++){
+        for(int j = 0; j<x.size(); j++){
+            for(int k = 0; k<x.size(); k++){
+                result[i][j] += x[i][k] * y[k][j];
+            }
+        }
+    }
+    return result;
+}
+
+int getTrace(vector<vector<int> > x){
+    int trace = 0;
+    for(int i = 0; i < x.size(); i++){
+        trace += x[i][i];
+    }
+    return trace;
+}
+
+int GraphAnalyzer::getNumberOfClosedTrinagles(){
+    vector<vector<int> > graph = G.getAdjMatrix();
+    //Removes the weights currently in the graph and substitutes it for ones if edge
+    for(int i = 0; i<graph.size(); i++){
+        for(int j = 0; j<graph.size(); j++){
+            if(graph[i][j] > 0){
+                graph[i][j] = 1;
+            }
+        }
+    }
+    //Square the matrix to find all possible paths of length 2
+    vector<vector<int> > graphSquared = multiplyMatrix(graph, graph);
+    //Cube the matrix to find all possible paths of length 3
+    vector<vector<int> > graphCubed = multiplyMatrix(graphSquared, graph);
+    //Get trace to find all possible paths that start and end in the same location
+    int unfilteredNumOfTriangles = getTrace(graphCubed);
+    //Divide by 3 due to combinations of 3 nodes and divide by 2 because nature of undirected graphs
+    return unfilteredNumOfTriangles/6;
+}
 
 float GraphAnalyzer::openClosedTriangleRatio() {
-    //TODO
-    return .5;
+    int numOfClosedTriangles = getNumberOfClosedTrinagles();
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {

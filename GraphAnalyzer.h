@@ -13,9 +13,15 @@ class GraphAnalyzer {
 
 public:	
     
-
+    //Uses dijkstra's algorithm to compute diameter of graph
     int dijkstraAlgorithm(int idOfNode);
 
+    //Cubes adjaceny matrix. Resulting a[i][j] is the number of distinct walks of length 3 which start 
+    //start at vertix i and end at vertex j. Hence the diagonal element a[i][i] equals to the number
+    //of walks that starts and end at i
+    //Divide by 3 because of combinations and 2 because undirected graph
+    int getNumberOfClosedTrinagles();
+    
 	FeatureGraph G;
 	//TODO: Store a heap of triangeles using cpp prioirty_queue
 
