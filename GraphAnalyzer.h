@@ -12,9 +12,9 @@ class GraphAnalyzer {
 
 
 public:	
-	
-    int bfsOnGraph(int idOfNode);
     
+
+    int dijkstraAlgorithm(int idOfNode);
 
 	FeatureGraph G;
 	//TODO: Store a heap of triangeles using cpp prioirty_queue

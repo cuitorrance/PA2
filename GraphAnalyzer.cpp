@@ -5,12 +5,19 @@
 #include <queue>
 #include <algorithm>
 #include <iostream>
+#include <limits.h>
 using namespace std;
 
 bool sortinrev(const pair<float,int> &a,  
                const pair<float,int> &b) 
 { 
        return (a.first > b.first); 
+} 
+
+bool sortByLargest(const int &a,  
+               const int &b) 
+{ 
+       return (a > b); 
 } 
 
 void GraphAnalyzer::insert(Node n) {
@@ -23,42 +30,60 @@ void GraphAnalyzer::insert(Edge e) {
     // TODO Adjust calculations for ratio of open triangles and topKtriangles
 };
 
-int GraphAnalyzer::bfsOnGraph(int indexOfNode){
-    vector<Node> nodes = G.getNodes();
-    vector<int> distance(nodes.size(), -1);
-    queue<int> q;
-    q.push(indexOfNode);
-    distance[indexOfNode] = 0;
-    while(!q.empty()){
-        int x = q.front();
-        q.pop();
-        vector<int> edges = G.getAdjMatrix()[x];
-        for(unsigned int i = 0; i <edges.size(); i++){
-            if(edges[i]!=0){
-                //Current index
-                int curretIndex = i;
-                if(distance[i]==-1){
-                    q.push(curretIndex);
-                    distance[i] = distance[x] + 1;
-                }
-            }
+//Approximated from Geeks for Geeks (Giving credit)
+int findClosestNode(vector<int> distance, vector<bool> visited, int numOfNodes){
+    int min = INT_MAX;
+    int minIndex = -1;
+    for(int i = 0; i<numOfNodes; i++){
+        if(visited[i] == false && distance[i] <= min){
+            min = distance[i];
+            minIndex = i;
         }
     }
-    int maxDistance = 0;
-    //Find the Maximum distance from the vector distance
-    for(unsigned int i = 0; i < distance.size(); i++){
-        if(distance[i] > maxDistance){
-            maxDistance = distance[i];
-        }
-    }
-    return maxDistance;
-};
+    return minIndex;
+}
 
+int GraphAnalyzer::dijkstraAlgorithm(int indexOfNode){
+    vector<Node> nodes = G.getNodes();
+    //Contains all the distances
+    vector<int> distance(nodes.size(), INT_MAX);
+    //Contains information on wether we have visted the node or not
+    vector<bool> visited(nodes.size(), 0);
+
+    vector<vector<int> > graph = G.getAdjMatrix();
+    //src node distance is 0
+    distance[indexOfNode] = 0;
+
+    //Update distance values of adjacent vertices
+    for(int i = 0; i<nodes.size() - 1; i++){
+        //Find the minimum distance vertex from the set. Initialize u to the src
+        int u = findClosestNode(distance, visited, nodes.size());
+
+        //Mark the source as visited
+        visited[u] = true;
+        for(int v = 0; v< nodes.size(); v++){
+            //Update the distance[v] if it has not been visited, there is an edge between u and v, AND the weight of v + distance[u]
+            //and is less than the current distance[v]
+            if(graph[u][v] && !visited[v] && distance[u] != INT_MAX
+                && distance[v] > distance[u] + graph[u][v])
+                {
+                distance[v] = distance[u] + graph[u][v];
+            }
+        } 
+    }
+    sort(distance.begin(), distance.end(), sortByLargest);
+    return distance.front();
+}
+
+//Utilizes Dijkstra's algorithm to find shortest path distances
 int GraphAnalyzer::diameter() {
     vector<Node> temp = G.getNodes();
     int maxDiameter = -1;
+    //Loops through all the possible source nodes and applies dijkstra's Algorithm to the source node
     for(unsigned int i = 0; i < temp.size(); i++){
-        int longestPathForIndexI = bfsOnGraph(i);
+        int longestPathForIndexI = dijkstraAlgorithm(i);
+        //If the the current diameter is smalled than the current source nodes longest "shortest" path
+        //than the diameter = the current longest "shortest" path
         if(longestPathForIndexI>maxDiameter){
             maxDiameter = longestPathForIndexI;
         }
