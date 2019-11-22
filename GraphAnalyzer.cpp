@@ -109,12 +109,12 @@ int GraphAnalyzer::getNumberOpenTriangles(vector< vector<int> > graph){
   int edgeCount = 0;
 
   //count # edges
-  for (unsigned int i = 0; i < graph.size(); i++){
-    for (unsigned int j = 0; j < graph[i].size(); j++){
-      if (graph[i][j] != 0){
-	edgeCount++;
-      }
-    }
+  for(unsigned int i = 0; i < graph.size(); i++){
+        for (unsigned int j = 0; j < graph[i].size(); j++){
+            if (graph[i][j] != 0){
+	            edgeCount++;
+            }
+        }
   }
 
   //if number of edges is less than 2
@@ -169,6 +169,10 @@ int GraphAnalyzer::getNumberOfClosedTrinagles(){
 
 float GraphAnalyzer::openClosedTriangleRatio() {
     int numOfClosedTriangles = getNumberOfClosedTrinagles();
+    vector<vector<int> > graph = G.getAdjMatrix();
+    int numOfOpenTriangles = getNumberOpenTriangles(graph);
+    
+    return float(numOfOpenTriangles) / float(numOfClosedTriangles);
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
