@@ -105,23 +105,28 @@ if (n == 0)
 int GraphAnalyzer::getNumberOpenTriangles(vector< vector<int> > graph){
   int result = 0;
 
-  //edge counter
-  int edgeCount = 0;
 
   //count # edges
   for(unsigned int i = 0; i < graph.size(); i++){
+        //Specific node, where node is center of triangle
+        //edge counter
+        int edgeCount = 0;
         for (unsigned int j = 0; j < graph[i].size(); j++){
             if (graph[i][j] != 0){
 	            edgeCount++;
             }
         }
+        //if number of edges is less than 2
+        if(edgeCount < 2){
+            result += 0;
+        }else{
+            //calculate # of edges choose 2
+            result+= factorial(edgeCount) / ( (factorial(edgeCount - 2)) * 2 );
+        }
   }
 
   //if number of edges is less than 2
-  if (edgeCount < 2) return 0;
-  
-  //calculate # of edges choose 2
-  result = factorial(edgeCount) / ( (factorial(edgeCount - 2)) * 2 );
+
   
   return result;
 };
@@ -169,26 +174,32 @@ int GraphAnalyzer::getNumberOfClosedTrinagles(){
 
 float GraphAnalyzer::openClosedTriangleRatio() {
     int numOfClosedTriangles = getNumberOfClosedTrinagles();
+    if(numOfClosedTriangles==0){
+        return -1;
+    }
     vector<vector<int> > graph = G.getAdjMatrix();
     int numOfOpenTriangles = getNumberOpenTriangles(graph);
-    
-    return float(numOfOpenTriangles) / float(numOfClosedTriangles);
+    //Overcount number of closed triangles 3 times due to cyclical nature of closed triangles.
+    return float(numOfOpenTriangles - (3*numOfClosedTriangles)) / float(numOfClosedTriangles);
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
 
+  vector<vector<int>> graph = G.getAdjMatrix();
   //if k > the number of open triangles then return whole triangle heap
   if (getNumberOpenTriangles(graph) < k){
-    k = getNumberOpenTriangles;
+    k = getNumberOpenTriangles(graph);
   }
 
   string result = "";
-  
+
+  vector<Triangle> triHeap = G.getTriHeap();
     //given a vector max heap that already has max heap property
     //go through k elements of heap
     for (int i = 0; i < k ; i++){
+      Triangle tri = triHeap[i];
       string nextTriangle = "";
-      //nextTriangle = i + ": " + triangleNode1 + triangleNode2 + triangleNode3 + newline;
+      nextTriangle = to_string(i+1) + ": " + to_string(tri.getIDa()) + "," + to_string(tri.getIDb()) + "," + to_string(tri.getIDc()) + "\n";
       result += nextTriangle;
     }
   
@@ -231,8 +242,35 @@ vector<int> GraphAnalyzer::topKNeighbors(int nodeID, int k,  vector<float> w) {
 
 
 int GraphAnalyzer::topNonNeighbor(int nodeID, vector<float> w) {
-    //TODO
-    return 1;
+    int indexOfNode = G.findIndexOfId(nodeID);
+    vector<Node> currentGraph = G.getNodes();
+    //Will hold Nodes that do not have an edge with nodeID
+    vector<Node> nodesNotConnected;
+    //Will return row containing edge iformation with nodeID
+    vector<int> edges = G.getAdjMatrix()[indexOfNode];
+    for(int i = 0; i < edges.size(); i++){
+        if(edges[i] == 0){
+            nodesNotConnected.push_back(currentGraph[i]);
+        }
+    }
+    //If the node has an edge with every node return -1
+    if(nodesNotConnected.size() == 0){
+        return -1;
+    }
+    //Loops through nodesNotConnected and grabs the id of the top scoring Node
+    int topNonNeighbor = -1;
+    int maxWeight = -1;
+    for(int i = 0; i <nodesNotConnected.size(); i++){
+        float currentWeight = 0;
+        for(int j = 0; j < w.size(); j++){
+            currentWeight+=nodesNotConnected[i].features[j] * w[j];
+        }
+        if(currentWeight>maxWeight){
+            maxWeight = currentWeight;
+            topNonNeighbor = i;
+        }
+    }
+    return nodesNotConnected[topNonNeighbor].id;
 };
 
 
