@@ -184,8 +184,26 @@ float GraphAnalyzer::openClosedTriangleRatio() {
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
-    //TODO
-    return "2,3,4";
+
+  vector<vector<int>> graph = G.getAdjMatrix();
+  //if k > the number of open triangles then return whole triangle heap
+  if (getNumberOpenTriangles(graph) < k){
+    k = getNumberOpenTriangles(graph);
+  }
+
+  string result = "";
+
+  vector<Triangle> triHeap = G.getTriHeap();
+    //given a vector max heap that already has max heap property
+    //go through k elements of heap
+    for (int i = 0; i < k ; i++){
+      Triangle tri = triHeap[i];
+      string nextTriangle = "";
+      nextTriangle = to_string(i+1) + ": " + to_string(tri.getIDa()) + "," + to_string(tri.getIDb()) + "," + to_string(tri.getIDc()) + "\n";
+      result += nextTriangle;
+    }
+  
+    return result;
 };
 
 //Reminder may need bug fix if k is greater than edges for nodeID
