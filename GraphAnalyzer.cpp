@@ -224,8 +224,35 @@ vector<int> GraphAnalyzer::topKNeighbors(int nodeID, int k,  vector<float> w) {
 
 
 int GraphAnalyzer::topNonNeighbor(int nodeID, vector<float> w) {
-    //TODO
-    return 1;
+    int indexOfNode = G.findIndexOfId(nodeID);
+    vector<Node> currentGraph = G.getNodes();
+    //Will hold Nodes that do not have an edge with nodeID
+    vector<Node> nodesNotConnected;
+    //Will return row containing edge iformation with nodeID
+    vector<int> edges = G.getAdjMatrix()[indexOfNode];
+    for(int i = 0; i < edges.size(); i++){
+        if(edges[i] == 0){
+            nodesNotConnected.push_back(currentGraph[i]);
+        }
+    }
+    //If the node has an edge with every node return -1
+    if(nodesNotConnected.size() == 0){
+        return -1;
+    }
+    //Loops through nodesNotConnected and grabs the id of the top scoring Node
+    int topNonNeighbor = -1;
+    int maxWeight = -1;
+    for(int i = 0; i <nodesNotConnected.size(); i++){
+        float currentWeight = 0;
+        for(int j = 0; j < w.size(); j++){
+            currentWeight+=nodesNotConnected[i].features[j] * w[j];
+        }
+        if(currentWeight>maxWeight){
+            maxWeight = currentWeight;
+            topNonNeighbor = i;
+        }
+    }
+    return nodesNotConnected[topNonNeighbor].id;
 };
 
 
