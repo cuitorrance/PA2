@@ -27,7 +27,12 @@ class Triangle {
 public:
 
     // TODO make appropriate constuctor
-    Triangle() { }
+    Triangle(Edge a, Edge b) { 
+        this->totalWeight = a.weight + b.weight;
+    }
+    Triangle(Edge a, Edge b, Edge c) { 
+        this->totalWeight = a.weight + b.weight + c.weight;
+    }
     
     // Operator overloading for storage in priority queue
     // returns true iff t2 is greater than t1. 
@@ -35,10 +40,13 @@ public:
     // Note: Must be transitive
     //      This means if t1<t2 and t2<t3 than t1< t3
     bool operator < (Triangle const &other) {
-        //TODO
-        return true;
-    }  
-
+        if(this->totalWeight < other.totalWeight){
+            return true;
+        }
+        return false;
+    }
+private:
+    int totalWeight;
 };
 
 
