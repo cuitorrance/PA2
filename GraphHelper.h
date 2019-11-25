@@ -29,11 +29,9 @@ public:
     // TODO make appropriate constuctor
     Triangle(Edge a, Edge b) { 
         this->totalWeight = a.weight + b.weight;
-<<<<<<< HEAD
     }
     Triangle(Edge a, Edge b, Edge c) { 
         this->totalWeight = a.weight + b.weight + c.weight;
-=======
 
 	//input IDs
 	this->IDa = a.IdA;
@@ -60,7 +58,6 @@ public:
 	  this->IDc = b.IdA;
 	}
 	
->>>>>>> m3
     }
     
     // Operator overloading for storage in priority queue
@@ -74,10 +71,8 @@ public:
         }
         return false;
     }
-<<<<<<< HEAD
 private:
     int totalWeight;
-=======
   int getIDa(){return IDa;}
   int getIDb(){return IDb;}
   int getIDc(){return IDc;}
@@ -87,7 +82,6 @@ private:
   int IDa;
   int IDb;
   int IDc;
->>>>>>> m3
 };
 
 
