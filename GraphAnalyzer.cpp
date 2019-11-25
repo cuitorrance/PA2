@@ -176,8 +176,23 @@ float GraphAnalyzer::openClosedTriangleRatio() {
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
-    //TODO
-    return "2,3,4";
+
+  //if k > the number of open triangles then return whole triangle heap
+  if (getNumberOpenTriangles(graph) < k){
+    k = getNumberOpenTriangles;
+  }
+
+  string result = "";
+  
+    //given a vector max heap that already has max heap property
+    //go through k elements of heap
+    for (int i = 0; i < k ; i++){
+      string nextTriangle = "";
+      //nextTriangle = i + ": " + triangleNode1 + triangleNode2 + triangleNode3 + newline;
+      result += nextTriangle;
+    }
+  
+    return result;
 };
 
 //Reminder may need bug fix if k is greater than edges for nodeID
