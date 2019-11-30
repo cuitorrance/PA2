@@ -10,8 +10,6 @@
 
 using namespace std;
 
-
-
 class FeatureGraph {
 
   
@@ -41,13 +39,16 @@ public:
 
     vector<vector<int> > getAdjMatrix(){return adjMatrix;}
 
+    vector<Triangle> getTriHeap(){return triHeap;}
+  
     void printAdjMatrix();
 
 private:
     int numNodes;
     int skillSize;
     vector<Node> nodes;
-    vector<vector<int> > adjMatrix; 
+    vector<vector<int> > adjMatrix;
+    vector<Triangle> triHeap;
 };  
 
 #endif

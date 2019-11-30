@@ -10,7 +10,6 @@ using namespace std;
 
 class GraphAnalyzer {
 
-
 public:	
     
     //Uses dijkstra's algorithm to compute diameter of graph
@@ -73,7 +72,7 @@ public:
 
     //helper method to find number of open triangles
     int getNumberOpenTriangles (vector < vector<int> > graph);
-
+  
 };
 
 #endif
