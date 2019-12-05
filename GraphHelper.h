@@ -43,23 +43,8 @@ public:
 	}else{
 	  this->IDc = b.IdA;
 	}
-    }
-    Triangle(Edge a, Edge b, Edge c) { 
-        this->totalWeight = a.weight + b.weight + c.weight;
-
-	//input IDs
-	this->IDa = a.IdA;
-	this->IDb = a.IdB;
-
-	//check in case edges are flipped
-	if (this->IDb == b.IdA){
-	  this->IDc = b.IdB;
-	}else{
-	  this->IDc = b.IdA;
-	}
-	
-    }
-    
+  }
+  
     // Operator overloading for storage in priority queue
     // returns true iff t2 is greater than t1. 
     //
@@ -71,14 +56,12 @@ public:
         }
         return false;
     }
-private:
-    int totalWeight;
   int getIDa(){return IDa;}
   int getIDb(){return IDb;}
   int getIDc(){return IDc;}
   
 private:
-    int totalWeight;
+  int totalWeight;
   int IDa;
   int IDb;
   int IDc;
