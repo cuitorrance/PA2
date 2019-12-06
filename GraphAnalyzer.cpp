@@ -254,7 +254,7 @@ float GraphAnalyzer::openClosedTriangleRatio() {
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
     vector<vector<int>> graph = G.getAdjMatrix();
-    if(getNumberOpenTriangles(graph) == 0){
+    if(getNumberOpenTriangles(graph)- (3*getNumberOfClosedTrinagles()) == 0){
         return "";
     }
     if (triHeap.size() != 0){
