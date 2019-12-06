@@ -289,8 +289,8 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
       triHeap.pop();
     }
     result = result.substr(0, result.length() - 1);
-    
-    triHeap = pq;
+    cout<<pq.size()<<endl;
+    //triHeap = pq;
     return result;
 };
 
