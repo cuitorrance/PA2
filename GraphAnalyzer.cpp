@@ -274,27 +274,15 @@ int GraphAnalyzer::topNonNeighbor(int nodeID, vector<float> w) {
 };
 
 
-float GraphAnalyzer::jacardIndexOfTopKNeighborhoods(int nodeAID, int nodeBiID, int k, vector<float> w) {
-    vector<vector<int> > graphObj = G.getAdjMatrix();
-    //Find edges for both nodes
-    vector<int> aSimiliar = graphObj[G.findIndexOfId(nodeAID)];
-    vector<int> bSimiliar = graphObj[G.findIndexOfId(nodeBiID)];
-    //Construct Intersection and Union 
+float GraphAnalyzer::jacardIndexOfTopKNeighborhoods(int nodeAID, int nodeBID, int k, vector<float> w) {
+    vector<int> topKNeighborA = topKNeighbors(nodeAID, k, w);
+    vector<int> topKNeighborB = topKNeighbors(nodeBID, k, w);
+    
+    vector<int> unionNeighbors;
+    set_union(topKNeighborA.begin(), topKNeighborA.end(), topKNeighborB.begin(), topKNeighborB.end(), back_inserter(unionNeighbors));
     vector<int> intersection;
-    vector<int> finalUnion;
-    for(int i = 0; i < bSimiliar.size(); i++){
-        if(bSimiliar[i] != 0 && aSimiliar[i] != 0){
-            intersection.push_back(i);
-        }
-        else if(bSimiliar[i] != 0 && aSimiliar[i] == 0){
-            finalUnion.push_back(i);
-        }
-        else if(bSimiliar[i] == 0 && aSimiliar[i] != 0){
-            finalUnion.push_back(i);
-        }
-    }
-    //Compute Weight of Union and Intersection
-    return 1.7;
+    set_intersection(topKNeighborA.begin(), topKNeighborA.end(), topKNeighborB.begin(), topKNeighborB.end(), back_inserter(intersection));
+    return float(intersection.size()) / float(unionNeighbors.size());
 };
 
 
