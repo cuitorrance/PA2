@@ -253,10 +253,11 @@ float GraphAnalyzer::openClosedTriangleRatio() {
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
-    if(k == 0 ){
+    vector<vector<int>> graph = G.getAdjMatrix();
+    if(getNumberOpenTriangles(graph)){
         return "";
     }
-    vector<vector<int>> graph = G.getAdjMatrix();
+
   if (triHeap.size() == 0){
     insertTriHeap();
   }
