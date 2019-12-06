@@ -42,7 +42,7 @@ void GraphAnalyzer::insert(Edge e) {
                 it++;
             }
             if(count < 2){
-                pq.push(triHeap.top);
+                pq.push(triHeap.top());
             }
             triHeap.pop();
         }
