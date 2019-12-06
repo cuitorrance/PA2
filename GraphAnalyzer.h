@@ -79,7 +79,7 @@ public:
 
 private:
   //private variable for queue
-  priority_queue< Triangle> triHeap;
+  priority_queue<Triangle, vector<Triangle>, sortTriangle> triHeap;
   
 };
 

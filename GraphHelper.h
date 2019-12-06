@@ -50,11 +50,14 @@ public:
   //int getIDb(){return IDb;}
   //int getIDc(){return IDc;}
    set<int> ids;
-   
-  
-private:
   int totalWeight;
  
+};
+struct sortTriangle{
+    bool operator()(Triangle const & p1, Triangle const & p2) {
+        // return "true" if "p1" is ordered before "p2", for example:
+        return p1.totalWeight < p2.totalWeight;
+    }
 };
 
 

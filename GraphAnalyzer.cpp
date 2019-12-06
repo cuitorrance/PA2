@@ -241,10 +241,10 @@ float GraphAnalyzer::openClosedTriangleRatio() {
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
-  
+  return "";
   if (triHeap.size() != 0){
     //calculate all open triangles
-
+    return "";
   }else{
 
     //count all trinalges
@@ -258,7 +258,7 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
 
     string result = "";
 
-    priority_queue<Triangle> pq;
+    priority_queue<Triangle, vector<Triangle>, sortTriangle> pq;
   
     //given a vector max heap that already has max heap property
     //go through k elements of heap
