@@ -249,7 +249,7 @@ int GraphAnalyzer::topNonNeighbor(int nodeID, vector<float> w) {
     //Will return row containing edge iformation with nodeID
     vector<int> edges = G.getAdjMatrix()[indexOfNode];
     for(int i = 0; i < edges.size(); i++){
-        if(edges[i] == 0){
+        if(edges[i] == 0 && i!=indexOfNode){
             nodesNotConnected.push_back(currentGraph[i]);
         }
     }
