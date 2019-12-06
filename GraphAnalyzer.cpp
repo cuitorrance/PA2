@@ -184,7 +184,7 @@ float GraphAnalyzer::openClosedTriangleRatio() {
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
-
+return "";
   vector<vector<int>> graph = G.getAdjMatrix();
   //if k > the number of open triangles then return whole triangle heap
   if (getNumberOpenTriangles(graph) < k){
