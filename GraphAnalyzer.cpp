@@ -167,7 +167,7 @@ int GraphAnalyzer::dijkstraAlgorithm(int indexOfNode){
 //Utilizes Dijkstra's algorithm to find shortest path distances
 int GraphAnalyzer::diameter() {
     vector<Node> temp = G.getNodes();
-    if(getNumberOpenTriangles(G.getAdjMatrix()) == 0, getNumberOfClosedTrinagles() == 0){
+    if(getNumberOpenTriangles(G.getAdjMatrix()) == 0 && getNumberOfClosedTrinagles() == 0){
         return -1;
     }
     int maxDiameter = -1;
