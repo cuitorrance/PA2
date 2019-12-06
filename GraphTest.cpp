@@ -11,9 +11,11 @@ int main() {
        Node(1, vector<float> { 10, 10}),
        Node(2,vector<float> { 20, 20}),
        Node(3, vector<float> { 30, 30}),
-       Node(4, vector<float> { 40, 40}) };
+       Node(4, vector<float> { 30, 30}),
+       Node(5, vector<float> { 30, 30}),
+       Node(6, vector<float> { 30, 30})};
     
-    vector<Edge> edges {Edge(1,2, 10), Edge(2, 3, 9), Edge(3, 4, 1), Edge(1, 3, 5)};
+    vector<Edge> edges {Edge(1,2, 1), Edge(2, 3, 1), Edge(2,5, 1), Edge(3,5,1), Edge(3,4, 1), Edge(5,6, 1)};
   
     int d = 2;
 
@@ -27,15 +29,20 @@ int main() {
 
     cout << analyzer.openClosedTriangleRatio() << "\n";
 
-    cout << analyzer.topKOpenTriangles(2) << "\n";
+    cout << analyzer.topKOpenTriangles(6) << "\n";
 
     
-    int newNodeID = 5;
+    int newNodeID = 10;
     vector<float> newFeatures {3, 3};
     Node newNode = Node(newNodeID, newFeatures);
 
-    analyzer.insert(newNode);
-    analyzer.insert(Edge(4, 5, 32));
+    analyzer.insert(Edge(4, 6, 1));
+
+    cout << analyzer.diameter() << "\n";
+
+    cout << analyzer.openClosedTriangleRatio() << "\n";
+
+    cout << analyzer.topKOpenTriangles(6) << "\n";
     
     
     vector<float> weights{.5, .5};

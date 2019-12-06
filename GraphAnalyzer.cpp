@@ -30,9 +30,9 @@ void GraphAnalyzer::insert(Edge e) {
     vector<vector<int> > x = G.getAdjMatrix();
     vector<Node> w = G.getNodes();
     if(G.findIndexOfId(e.IdA) < x.size() && G.findIndexOfId(e.IdB) < x.size()){
-        
         priority_queue<Triangle, vector<Triangle>, sortTriangle> pq;
-        for(int i = 0; i <triHeap.size(); i++){
+        int counter = triHeap.size();
+        for(int i = 0; i <counter; i++){
             int count = 0;
             set<int>::iterator it = triHeap.top().ids.begin();
             while (it != triHeap.top().ids.end()){
@@ -47,7 +47,6 @@ void GraphAnalyzer::insert(Edge e) {
             triHeap.pop();
         }
         triHeap = pq;
-
     }
     else{
         vector<int> row = x[G.findIndexOfId(e.IdA)];

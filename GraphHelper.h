@@ -46,9 +46,6 @@ public:
         
         return totalWeight < other.totalWeight;
     }
-  //int getIDa(){return IDa;}
-  //int getIDb(){return IDb;}
-  //int getIDc(){return IDc;}
    set<int> ids;
   long totalWeight;
  
