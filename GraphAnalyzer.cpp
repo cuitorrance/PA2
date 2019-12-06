@@ -27,6 +27,16 @@ void GraphAnalyzer::insert(Node n) {
 
 void GraphAnalyzer::insert(Edge e) {
     G.insert(e);
+    vector<vector<int> > x = G.getAdjMatrix();
+    vector<Node> w = G.getNodes();
+    vector<int> row = x[G.findIndexOfId(e.IdA)];
+    for(int i = 0; i < row.size() - 1; i++){
+        if(row[i]!=0){
+            Edge z(e.IdA, w[i].id, x[G.findIndexOfId(e.IdA)][i]);
+            Triangle r(z, e);
+            triHeap.push(r);
+        }
+    }
     // TODO Adjust calculations for ratio of open triangles and topKtriangles
 };
 
@@ -246,14 +256,10 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
     if(k == 0 ){
         return "";
     }
-  if (triHeap.size() != 0){
-    //calculate all open triangles
-    return "";
-  }else{
-
-    //count all trinalges
-    insertTriHeap();
     vector<vector<int>> graph = G.getAdjMatrix();
+  if (triHeap.size() == 0){
+    insertTriHeap();
+  }
     //if k > the number of open triangles then return whole triangle heap
     if (getNumberOpenTriangles(graph) < k){
       k = getNumberOpenTriangles(graph);
@@ -281,7 +287,6 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
     
     triHeap = pq;
     return result;
-  }
 };
 
 //Reminder may need bug fix if k is greater than edges for nodeID

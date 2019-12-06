@@ -12,21 +12,23 @@ int main() {
        Node(2,vector<float> { 20, 20}),
        Node(3, vector<float> { 30, 30}),
        Node(4, vector<float> { 40, 40}) };
+    
     vector<Edge> edges {Edge(1,2, 10), Edge(2, 3, 9), Edge(3, 4, 1), Edge(1, 3, 5)};
   
     int d = 2;
 
+ 
 
     FeatureGraph graph = FeatureGraph(4, d, nodes, edges);
     GraphAnalyzer analyzer = GraphAnalyzer(graph);
 
 
-    std::cout << analyzer.diameter() << "\n";
+    cout << analyzer.diameter() << "\n";
 
-    std::cout << analyzer.openClosedTriangleRatio() << "\n";
+    cout << analyzer.openClosedTriangleRatio() << "\n";
 
-    std::cout << analyzer.topKOpenTriangles(2) << "\n";
-    
+    cout << analyzer.topKOpenTriangles(2) << "\n";
+
     
     int newNodeID = 5;
     vector<float> newFeatures {3, 3};
@@ -34,17 +36,18 @@ int main() {
 
     analyzer.insert(newNode);
     analyzer.insert(Edge(4, 5, 32));
-    
+
+       cout << analyzer.topKOpenTriangles(3) << "\n";
     
     vector<float> weights{.5, .5};
     vector<int> neighbors = analyzer.topKNeighbors(2, 3, weights);
     
     for(auto i = neighbors.begin(); i != neighbors.end(); ++i)
-        std::cout << *i << ",";
-    std::cout << "\n";
+        cout << *i << ",";
+    cout << "\n";
 
-    std::cout << analyzer.topNonNeighbor(2, weights) << "\n";
+    cout << analyzer.topNonNeighbor(2, weights) << "\n";
 
-    std::cout << analyzer.jacardIndexOfTopKNeighborhoods(1, 2, 2, weights);
+    cout << analyzer.jacardIndexOfTopKNeighborhoods(1, 2, 2, weights);
     return 0;
 }
