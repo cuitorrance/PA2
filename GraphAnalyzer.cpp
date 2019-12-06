@@ -254,7 +254,8 @@ float GraphAnalyzer::openClosedTriangleRatio() {
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
     vector<vector<int>> graph = G.getAdjMatrix();
-    if(getNumberOpenTriangles(graph)- (3*getNumberOfClosedTrinagles()) == 0){
+    int openTri = getNumberOpenTriangles(graph)- (3*getNumberOfClosedTrinagles());
+    if(openTri == 0){
         return "";
     }
     if (triHeap.size() != 0){
@@ -263,13 +264,12 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
   if (triHeap.size() == 0){
     insertTriHeap();
   }
-    //if k > the number of open triangles then return whole triangle heap
-    if (getNumberOpenTriangles(graph) < k){
-      k = getNumberOpenTriangles(graph);
-    }
 
     string result = "";
-
+    if(openTri < k){
+        k = openTri;
+        cout<<k<<endl;
+    }
     priority_queue<Triangle, vector<Triangle>, sortTriangle> pq;
     //given a vector max heap that already has max heap property
     //go through k elements of heap
