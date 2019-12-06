@@ -29,7 +29,7 @@ void GraphAnalyzer::insert(Edge e) {
     G.insert(e);
     vector<vector<int> > x = G.getAdjMatrix();
     vector<Node> w = G.getNodes();
-    if(G.findIndexOfId(e.IdA)!= x.size() || G.findIndexOfId(e.IdB)!= x.size()){
+    if(G.findIndexOfId(e.IdA) < x.size() || G.findIndexOfId(e.IdB) < x.size()){
         
         priority_queue<Triangle, vector<Triangle>, sortTriangle> pq;
         for(int i = 0; i <triHeap.size(); i++){
