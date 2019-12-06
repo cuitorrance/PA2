@@ -243,6 +243,9 @@ float GraphAnalyzer::openClosedTriangleRatio() {
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
+    if(k == 0 ){
+        return "";
+    }
   if (triHeap.size() != 0){
     //calculate all open triangles
     return "";
