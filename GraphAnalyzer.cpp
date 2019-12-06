@@ -261,7 +261,7 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
     insertTriHeap();
   }
     if (triHeap.size() != 0){
-    return;
+    return "";
   }
     //if k > the number of open triangles then return whole triangle heap
     if (getNumberOpenTriangles(graph) < k){
