@@ -2,6 +2,7 @@
 #define HELPER_H
 
 #include <vector>
+#include <set>
 using namespace std;
 
 struct Node {
@@ -27,44 +28,33 @@ class Triangle {
 public:
 
     // TODO make appropriate constuctor
-    Triangle(Edge a, Edge b) { 
+    Triangle(Edge a, Edge b) {
         this->totalWeight = a.weight + b.weight;
-    }
-    Triangle(Edge a, Edge b, Edge c) { 
-        this->totalWeight = a.weight + b.weight + c.weight;
 
-	//input IDs
-	this->IDa = a.IdA;
-	this->IDb = a.IdB;
-
-	//check in case edges are flipped
-	if (this->IDb == b.IdA){
-	  this->IDc = b.IdB;
-	}else{
-	  this->IDc = b.IdA;
-	}
-  }
-  
+	ids.insert(a.IdA);
+	ids.insert(a.IdB);
+	ids.insert(b.IdA);
+	ids.insert(b.IdB);
+	
+    }  
     // Operator overloading for storage in priority queue
     // returns true iff t2 is greater than t1. 
     //
     // Note: Must be transitive
     //      This means if t1<t2 and t2<t3 than t1< t3
     bool operator < (Triangle const &other) {
-        if(this->totalWeight < other.totalWeight){
-            return true;
-        }
-        return false;
+        
+        return totalWeight < other.totalWeight;
     }
-  int getIDa(){return IDa;}
-  int getIDb(){return IDb;}
-  int getIDc(){return IDc;}
+  //int getIDa(){return IDa;}
+  //int getIDb(){return IDb;}
+  //int getIDc(){return IDc;}
+   set<int> ids;
+   
   
 private:
   int totalWeight;
-  int IDa;
-  int IDb;
-  int IDc;
+ 
 };
 
 

@@ -39,8 +39,6 @@ public:
 
     vector<vector<int> > getAdjMatrix(){return adjMatrix;}
 
-    vector<Triangle> getTriHeap(){return triHeap;}
-  
     void printAdjMatrix();
 
 private:
@@ -48,7 +46,6 @@ private:
     int skillSize;
     vector<Node> nodes;
     vector<vector<int> > adjMatrix;
-    vector<Triangle> triHeap;
 };  
 
 #endif

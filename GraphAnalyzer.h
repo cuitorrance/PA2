@@ -2,6 +2,7 @@
 #define ANALYZER_H
 
 #include "FeatureGraph.h"
+#include <queue>
 
 
 using namespace std;
@@ -39,6 +40,9 @@ public:
     // You may assume that the edge contains nodes already inserted into the graph
     void insert(Edge e);
 
+  //insert triangles into heap
+  void insertTriHeap();
+  
    	// Return the diameter of the network.
     int diameter();
 
@@ -72,6 +76,10 @@ public:
 
     //helper method to find number of open triangles
     int getNumberOpenTriangles (vector < vector<int> > graph);
+
+private:
+  //private variable for queue
+  priority_queue< Triangle> triHeap;
   
 };
 
