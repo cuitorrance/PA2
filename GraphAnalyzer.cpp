@@ -282,6 +282,9 @@ int GraphAnalyzer::getNumberOfClosedTrinagles(){
 
 float GraphAnalyzer::openClosedTriangleRatio() {
     int numOfClosedTriangles = getNumberOfClosedTrinagles();
+    if (triHeap.size() != 0){
+        return float(triHeap.size()) / float(numOfClosedTriangles);
+    }
     if(numOfClosedTriangles==0){
         return -1;
     }
