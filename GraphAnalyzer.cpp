@@ -241,7 +241,6 @@ float GraphAnalyzer::openClosedTriangleRatio() {
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
-
   
   if (triHeap.size() != 0){
     //calculate all open triangles
@@ -328,7 +327,7 @@ int GraphAnalyzer::topNonNeighbor(int nodeID, vector<float> w) {
     //Will return row containing edge iformation with nodeID
     vector<int> edges = G.getAdjMatrix()[indexOfNode];
     for(int i = 0; i < edges.size(); i++){
-        if(edges[i] == 0){
+        if(edges[i] == 0 && i!=indexOfNode){
             nodesNotConnected.push_back(currentGraph[i]);
         }
     }
@@ -338,7 +337,7 @@ int GraphAnalyzer::topNonNeighbor(int nodeID, vector<float> w) {
     }
     //Loops through nodesNotConnected and grabs the id of the top scoring Node
     int topNonNeighbor = -1;
-    int maxWeight = -1;
+    float maxWeight = -1;
     for(int i = 0; i <nodesNotConnected.size(); i++){
         float dotProduct = 0;
         for(int j = 0; j < w.size(); j++){
@@ -353,27 +352,15 @@ int GraphAnalyzer::topNonNeighbor(int nodeID, vector<float> w) {
 };
 
 
-float GraphAnalyzer::jacardIndexOfTopKNeighborhoods(int nodeAID, int nodeBiID, int k, vector<float> w) {
-    vector<vector<int> > graphObj = G.getAdjMatrix();
-    //Find edges for both nodes
-    vector<int> aSimiliar = graphObj[G.findIndexOfId(nodeAID)];
-    vector<int> bSimiliar = graphObj[G.findIndexOfId(nodeBiID)];
-    //Construct Intersection and Union 
+float GraphAnalyzer::jacardIndexOfTopKNeighborhoods(int nodeAID, int nodeBID, int k, vector<float> w) {
+    vector<int> topKNeighborA = topKNeighbors(nodeAID, k, w);
+    vector<int> topKNeighborB = topKNeighbors(nodeBID, k, w);
+    
+    vector<int> unionNeighbors;
+    set_union(topKNeighborA.begin(), topKNeighborA.end(), topKNeighborB.begin(), topKNeighborB.end(), back_inserter(unionNeighbors));
     vector<int> intersection;
-    vector<int> finalUnion;
-    for(int i = 0; i < bSimiliar.size(); i++){
-        if(bSimiliar[i] != 0 && aSimiliar[i] != 0){
-            intersection.push_back(i);
-        }
-        else if(bSimiliar[i] != 0 && aSimiliar[i] == 0){
-            finalUnion.push_back(i);
-        }
-        else if(bSimiliar[i] == 0 && aSimiliar[i] != 0){
-            finalUnion.push_back(i);
-        }
-    }
-    //Compute Weight of Union and Intersection
-    return 1.7;
+    set_intersection(topKNeighborA.begin(), topKNeighborA.end(), topKNeighborB.begin(), topKNeighborB.end(), back_inserter(intersection));
+    return float(intersection.size()) / float(unionNeighbors.size());
 };
 
 
