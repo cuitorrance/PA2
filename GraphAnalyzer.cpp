@@ -41,7 +41,6 @@ void GraphAnalyzer::insertTriHeap(){
 
   //vector to store triangles
   vector<Triangle> triVector;
-  
   //for each edge
   for ( int i = 0; i < graph.size();i++){
     for (int j = 0; j < graph[i].size(); j++){
@@ -53,12 +52,11 @@ void GraphAnalyzer::insertTriHeap(){
 	for( int k = j; k < graph[i].size(); k++){
 
 	  //if (j,k) and (k,i) are edges
-	  if (graph[j][k] != 0 && graph[k][i] != 0){
+	  if (graph[i][j] != 0 && graph[i][k] != 0 && k != j){
 
 	    //create Triangle
-	    Edge one (nodes[j].id , nodes[k].id, graph[j][k]);
-
-	    Edge two (nodes[k].id, nodes[i].id, graph[k][i]);
+	    Edge one (nodes[i].id , nodes[j].id, graph[i][j]);
+	    Edge two (nodes[i].id, nodes[k].id, graph[i][k]);
 
 	    Triangle tri(one, two);
 	    
@@ -68,20 +66,24 @@ void GraphAnalyzer::insertTriHeap(){
 	  }
 	  
 	}
-      }
+    }
       
     }
   }
-
   //insert into Heap, check for duplicate triangles
   for (int i = 0; i < triVector.size();i++){
+    bool flag = true;
     for ( int j = 0; j < triVector.size();j++){
       if ( i != j && triVector[i].ids != triVector[j].ids){
-	triHeap.push(triVector[i]);
+          continue;
+      }else if(i!=j){
+          flag = false;
       }
     }
+    if(flag){
+        triHeap.push(triVector[i]);
+    }
   }
-
 };
 
 
@@ -241,7 +243,6 @@ float GraphAnalyzer::openClosedTriangleRatio() {
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
-  return "";
   if (triHeap.size() != 0){
     //calculate all open triangles
     return "";
@@ -249,7 +250,6 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
 
     //count all trinalges
     insertTriHeap();
-    
     vector<vector<int>> graph = G.getAdjMatrix();
     //if k > the number of open triangles then return whole triangle heap
     if (getNumberOpenTriangles(graph) < k){
@@ -259,20 +259,16 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
     string result = "";
 
     priority_queue<Triangle, vector<Triangle>, sortTriangle> pq;
-  
     //given a vector max heap that already has max heap property
     //go through k elements of heap
     for (int i = 0; i < k ; i++){
       string nextTriangle = "";
-
       vector<int> triID;
-
       set<int>::iterator it = triHeap.top().ids.begin();
-
       while (it != triHeap.top().ids.end()){
-	triID.push_back(*it);
+	    triID.push_back(*it);
+        it++;
       }
-      
       pq.push(triHeap.top());
       nextTriangle = to_string(triID[0]) + "," + to_string(triID[1]) + "," + to_string(triID[2]) + ";";
       result += nextTriangle;
