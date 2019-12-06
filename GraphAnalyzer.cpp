@@ -260,9 +260,9 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
         return "";
     }
     //Tri heap has been created already
-    if (triHeap.size() != 0){
-    return "";
-  }
+//     if (triHeap.size() != 0){
+//     return "";
+//   }
   //FIrst initial tri heap
   if (triHeap.size() == 0){
     insertTriHeap();
