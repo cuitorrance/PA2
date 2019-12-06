@@ -259,7 +259,7 @@ int GraphAnalyzer::topNonNeighbor(int nodeID, vector<float> w) {
     }
     //Loops through nodesNotConnected and grabs the id of the top scoring Node
     int topNonNeighbor = -1;
-    int maxWeight = -1;
+    float maxWeight = -1;
     for(int i = 0; i <nodesNotConnected.size(); i++){
         float dotProduct = 0;
         for(int j = 0; j < w.size(); j++){
