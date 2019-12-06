@@ -8,8 +8,6 @@
 #include <limits.h>
 using namespace std;
 
-
-
 bool sortinrev(const pair<float,int> &a,  
                const pair<float,int> &b) 
 { 
@@ -31,6 +29,61 @@ void GraphAnalyzer::insert(Edge e) {
     G.insert(e);
     // TODO Adjust calculations for ratio of open triangles and topKtriangles
 };
+
+//inserting triangles into heap
+void GraphAnalyzer::insertTriHeap(){
+
+  //get nodes
+  vector<Node> nodes = G.getNodes();
+  
+  //get adjacency matrix
+  vector< vector<int> > graph = G.getAdjMatrix();
+
+  //vector to store triangles
+  vector<Triangle> triVector;
+  
+  //for each edge
+  for ( int i = 0; i < graph.size();i++){
+    for (int j = 0; j < graph[i].size(); j++){
+
+      //if there is an edge
+      if (graph[i][j] != 0){
+
+	//for each vertex
+	for( int k = j; k < graph[i].size(); k++){
+
+	  //if (j,k) and (k,i) are edges
+	  if (graph[j][k] != 0 && graph[k][i] != 0){
+
+	    //create Triangle
+	    Edge one (nodes[j].id , nodes[k].id, graph[j][k]);
+
+	    Edge two (nodes[k].id, nodes[i].id, graph[k][i]);
+
+	    Triangle tri(one, two);
+	    
+	    //insert triangle into unordered vector
+	    triVector.push_back(tri);
+	    
+	  }
+	  
+	}
+      }
+      
+    }
+  }
+
+  //insert into Heap, check for duplicate triangles
+  for (int i = 0; i < triVector.size();i++){
+    for ( int j = 0; j < triVector.size();j++){
+      if ( i != j && triVector[i].ids != triVector[j].ids){
+	triHeap.push(triVector[i]);
+      }
+    }
+  }
+
+};
+
 
 //Approximated from Geeks for Geeks (Giving credit)
 int findClosestNode(vector<int> distance, vector<bool> visited, int numOfNodes){
@@ -103,6 +156,8 @@ if (n == 0)
 
 //returns number of open triangles in graph
 int GraphAnalyzer::getNumberOpenTriangles(vector< vector<int> > graph){
+  
+
   int result = 0;
 
 
@@ -153,7 +208,9 @@ int getTrace(vector<vector<int> > x){
 }
 
 int GraphAnalyzer::getNumberOfClosedTrinagles(){
-    vector<vector<int> > graph = G.getAdjMatrix();
+
+
+  vector<vector<int> > graph = G.getAdjMatrix();
     //Removes the weights currently in the graph and substitutes it for ones if edge
     for(int i = 0; i<graph.size(); i++){
         for(int j = 0; j<graph.size(); j++){
@@ -184,26 +241,47 @@ float GraphAnalyzer::openClosedTriangleRatio() {
 };
 
 string GraphAnalyzer::topKOpenTriangles(int k) {
-return "";
-  vector<vector<int>> graph = G.getAdjMatrix();
-  //if k > the number of open triangles then return whole triangle heap
-  if (getNumberOpenTriangles(graph) < k){
-    k = getNumberOpenTriangles(graph);
-  }
+  
+  if (triHeap.size() != 0){
+    //calculate all open triangles
 
-  string result = "";
+  }else{
 
-  vector<Triangle> triHeap = G.getTriHeap();
+    //count all trinalges
+    insertTriHeap();
+    
+    vector<vector<int>> graph = G.getAdjMatrix();
+    //if k > the number of open triangles then return whole triangle heap
+    if (getNumberOpenTriangles(graph) < k){
+      k = getNumberOpenTriangles(graph);
+    }
+
+    string result = "";
+
+    priority_queue<Triangle> pq;
+  
     //given a vector max heap that already has max heap property
     //go through k elements of heap
     for (int i = 0; i < k ; i++){
-      Triangle tri = triHeap[i];
       string nextTriangle = "";
-      nextTriangle = to_string(i+1) + ": " + to_string(tri.getIDa()) + "," + to_string(tri.getIDb()) + "," + to_string(tri.getIDc()) + "\n";
+
+      vector<int> triID;
+
+      set<int>::iterator it = triHeap.top().ids.begin();
+
+      while (it != triHeap.top().ids.end()){
+	triID.push_back(*it);
+      }
+      
+      pq.push(triHeap.top());
+      nextTriangle = to_string(triID[0]) + "," + to_string(triID[1]) + "," + to_string(triID[2]) + ";";
       result += nextTriangle;
+      triHeap.pop();
     }
-  
+    
+    triHeap = pq;
     return result;
+  }
 };
 
 //Reminder may need bug fix if k is greater than edges for nodeID
