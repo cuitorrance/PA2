@@ -30,6 +30,22 @@ void GraphAnalyzer::insert(Edge e) {
     vector<vector<int> > x = G.getAdjMatrix();
     vector<Node> w = G.getNodes();
     if(G.findIndexOfId(e.IdA) < x.size() && G.findIndexOfId(e.IdB) < x.size()){
+        vector<int> row = x[G.findIndexOfId(e.IdA)];
+        for(int i = 0; i < row.size() - 1; i++){
+            if(row[i]!=0){
+                Edge z(e.IdB, w[i].id, x[G.findIndexOfId(e.IdA)][i]);
+                Triangle r(z, e);
+                triHeap.push(r);
+            }
+        }
+        vector<int> row2 = x[G.findIndexOfId(e.IdB)];
+        for(int i = 0; i < row2.size() - 1; i++){
+            if(row2[i]!=0){
+                Edge z(e.IdB, w[i].id, x[G.findIndexOfId(e.IdB)][i]);
+                Triangle r(z, e);
+                triHeap.push(r);
+            }
+        }
         priority_queue<Triangle, vector<Triangle>, sortTriangle> pq;
         int counter = triHeap.size();
         for(int i = 0; i <counter; i++){
@@ -46,7 +62,6 @@ void GraphAnalyzer::insert(Edge e) {
             }
             triHeap.pop();
         }
-        triHeap = pq;
     }
     else{
         vector<int> row = x[G.findIndexOfId(e.IdA)];
