@@ -274,6 +274,7 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
       result += nextTriangle;
       triHeap.pop();
     }
+    result = result.substr(0, result.length() - 1);
     
     triHeap = pq;
     return result + "\n";
