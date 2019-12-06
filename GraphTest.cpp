@@ -13,7 +13,7 @@ int main() {
        Node(3, vector<float> { 30, 30}),
        Node(4, vector<float> { 40, 40}) };
     
-    vector<Edge> edges {Edge(1,2, 10), Edge(2, 4, 9), Edge(1, 3, 1), Edge(3, 4, 5), Edge(1,4, 9)};
+    vector<Edge> edges {Edge(1,2, 10), Edge(2, 4, 9), Edge(1, 3, 1), Edge(3, 4, 5), Edge(1,4, 9), Edge(2,3, 8)};
     int d = 2;
 
  
