@@ -167,6 +167,9 @@ int GraphAnalyzer::dijkstraAlgorithm(int indexOfNode){
 //Utilizes Dijkstra's algorithm to find shortest path distances
 int GraphAnalyzer::diameter() {
     vector<Node> temp = G.getNodes();
+    if(getNumberOpenTriangles(G.getAdjMatrix()) == 0, getNumberOfClosedTrinagles() == 0){
+        return -1;
+    }
     int maxDiameter = -1;
     //Loops through all the possible source nodes and applies dijkstra's Algorithm to the source node
     for(unsigned int i = 0; i < temp.size(); i++){
@@ -267,9 +270,6 @@ float GraphAnalyzer::openClosedTriangleRatio() {
     int numOfClosedTriangles = getNumberOfClosedTrinagles();
     if(numOfClosedTriangles==0){
         return -1;
-    }
-    if(triHeap.size()!=0){
-        return triHeap.size() / numOfClosedTriangles;
     }
     vector<vector<int> > graph = G.getAdjMatrix();
     int numOfOpenTriangles = getNumberOpenTriangles(graph);
