@@ -268,6 +268,9 @@ float GraphAnalyzer::openClosedTriangleRatio() {
     if(numOfClosedTriangles==0){
         return -1;
     }
+    if(triHeap.size()!=0){
+        return triHeap.size() / numOfClosedTriangles;
+    }
     vector<vector<int> > graph = G.getAdjMatrix();
     int numOfOpenTriangles = getNumberOpenTriangles(graph);
     //Overcount number of closed triangles 3 times due to cyclical nature of closed triangles.
