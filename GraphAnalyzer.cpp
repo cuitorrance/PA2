@@ -29,12 +29,34 @@ void GraphAnalyzer::insert(Edge e) {
     G.insert(e);
     vector<vector<int> > x = G.getAdjMatrix();
     vector<Node> w = G.getNodes();
-    vector<int> row = x[G.findIndexOfId(e.IdA)];
-    for(int i = 0; i < row.size() - 1; i++){
-        if(row[i]!=0){
-            Edge z(e.IdA, w[i].id, x[G.findIndexOfId(e.IdA)][i]);
-            Triangle r(z, e);
-            triHeap.push(r);
+    if(G.findIndexOfId(e.IdA)!= x.size() || G.findIndexOfId(e.IdB)!= x.size()){
+        
+        priority_queue<Triangle, vector<Triangle>, sortTriangle> pq;
+        for(int i = 0; i <triHeap.size(); i++){
+            int count = 0;
+            set<int>::iterator it = triHeap.top().ids.begin();
+            while (it != triHeap.top().ids.end()){
+	            if(*it == e.IdA || *it == e.IdB){
+                    count++;
+                }
+                it++;
+            }
+            if(count < 2){
+                pq.push(triHeap.top);
+            }
+            triHeap.pop();
+        }
+        triHeap = pq;
+
+    }
+    else{
+        vector<int> row = x[G.findIndexOfId(e.IdA)];
+        for(int i = 0; i < row.size() - 1; i++){
+            if(row[i]!=0){
+                Edge z(e.IdA, w[i].id, x[G.findIndexOfId(e.IdA)][i]);
+                Triangle r(z, e);
+                triHeap.push(r);
+            }
         }
     }
     // TODO Adjust calculations for ratio of open triangles and topKtriangles
@@ -260,9 +282,9 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
         return "";
     }
     //Tri heap has been created already
-    if (triHeap.size() != 0){
-    return "";
-  }
+//     if (triHeap.size() != 0){
+//     return "";
+//   }
   //FIrst initial tri heap
   if (triHeap.size() == 0){
     insertTriHeap();
@@ -272,7 +294,7 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
     if(openTri < k){
         k = openTri;
     }
-    priority_queue<Triangle, vector<Triangle>, sortTriangle> pq;
+    priority_queue<Triangle, vector<Triangle>, sortTriangle> pq = triHeap;
     //given a vector max heap that already has max heap property
     //go through k elements of heap
     for (int i = 0; i < k ; i++){
@@ -283,14 +305,13 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
 	    triID.push_back(*it);
         it++;
       }
-      pq.push(triHeap.top());
       nextTriangle = to_string(triID[0]) + "," + to_string(triID[1]) + "," + to_string(triID[2]) + ";";
       result += nextTriangle;
       triHeap.pop();
     }
     result = result.substr(0, result.length() - 1);
     cout<<pq.size()<<endl;
-    //triHeap = pq;
+    triHeap = pq;
     return result;
 };
 
