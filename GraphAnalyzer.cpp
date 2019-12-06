@@ -276,7 +276,7 @@ string GraphAnalyzer::topKOpenTriangles(int k) {
     }
     
     triHeap = pq;
-    return result;
+    return result + "\n";
   }
 };
 
