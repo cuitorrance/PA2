@@ -50,7 +50,7 @@ public:
   //int getIDb(){return IDb;}
   //int getIDc(){return IDc;}
    set<int> ids;
-  int totalWeight;
+  long totalWeight;
  
 };
 struct sortTriangle{
